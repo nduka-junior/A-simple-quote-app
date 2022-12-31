@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
 
 function App() {
-  return (
+  const [quotes, setQuotes] = useState();
+  const fetchData = async () => {
+    const response = await fetch("https://api.quotable.io/random");
+
+    const data = await response.json();
+    setQuotes(data);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+  return quotes ? (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h1 style={{ textAlign: "center" }}>Quote Right Now</h1>
+      <div className="quote-body">
+        <h3>
+          {quotes.content} <span> by {quotes.author}</span>
+        </h3>
+        <div className="todo-quote">
+          {quotes.tags.map((tag, index) => {
+            return <h5 key={index}>{tag}</h5>;
+          })}
+        </div>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            return fetchData();
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          Generate New Quote
+        </button>
+      </div>
     </div>
+  ) : (
+    <h1>Loading...</h1>
   );
 }
 
