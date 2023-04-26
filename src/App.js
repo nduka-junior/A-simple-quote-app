@@ -12,6 +12,7 @@ function App() {
   useEffect(() => {
     fetchData();
   }, []);
+
   return quotes ? (
     <div className="App">
       <h1 style={{ textAlign: "center" }}>Quote Right Now</h1>
@@ -31,11 +32,12 @@ function App() {
           }}
         >
           Generate New Quote
+          
         </button>
       </div>
     </div>
   ) : (
-    <h1>Loading...</h1>
+    <h1 style={{textAlign:"center"}}>Loading...</h1>
   );
 }
 
